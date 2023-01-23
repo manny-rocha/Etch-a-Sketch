@@ -1,14 +1,29 @@
 let color = "black";
+let clicked = false;
 
 document.addEventListener("DOMContentLoaded", function() {
     createBoard(16);
+    
+    document.querySelector("body").addEventListener("click", function(e) {
+        if(e.target.tagName != "BUTTON") {
+            clicked = !clicked;
+
+            let start = document.querySelector("#start");
+            if (clicked) {
+                start.innerHTML = "Begin drawing";
+            }
+            else {
+                start.innerHTML = "Click to begin drawing";
+            }
+        }
+    });
     
     let btn_popup = document.querySelector("#popup");
     btn_popup.addEventListener("click", function(){
         let size = getSize();
         createBoard(size);
-    })
-})
+    });
+});
 
 function createBoard(size) {
     let board = document.querySelector(".board");
@@ -25,8 +40,8 @@ function createBoard(size) {
         div.addEventListener("mouseover", colorDiv)
         
         board.insertAdjacentElement("beforeend", div);
-    }
-}
+    };
+};
 
 function getSize() {
     let input = prompt("Choose a size for the board: ");
@@ -45,12 +60,15 @@ function getSize() {
 }
 
 function colorDiv() {
-    if (color == "random") {
-        this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    }
-    else {
-        this.style.backgroundColor = "black"
-    }
+    if (clicked) {
+        if (color == "random") {
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        }
+        else {
+            this.style.backgroundColor = "black"
+        }
+    } 
+        
 }
 
 function setColor(colorChoice) {
